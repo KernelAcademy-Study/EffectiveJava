@@ -1,255 +1,157 @@
-# \[item1] 생성자 대신 정적 팩터리 메서드를 고려하라
-## 들어가기
+# [Item 1] 생성자 대신 정적 팩토리 메서드를 고려하라
 
-생성자는 객체를 생성하기 위해 호출해야 하는 메서드를 의미한다.
+## 서론
+자바 클래스의 인스턴스를 만들 때 보통은 **public 생성자**를 사용한다. 하지만 정적 팩터리 메서드(static factory method)를 활용하면 더 유연하고 표현력 있는 API를 설계할 수 있다.  
+생성자 대신 정적 팩터리 메서드를 선택했을 때 얻을 수 있는 주요 이점 다섯 가지와 주의할 점 두 가지를 살펴보려고 한다. 
 
-생성자 대신 정적 팩터리 메서드를 활용하는 방법을 소개한다.
+---
 
-정적 팩터리 메서드란 무엇인가?
-
-java.lang의 Boolean 클래스를 살펴보자. Boolean 클래스는 정적 메서드 valueOf() 갖는다.
-
-```java
-public class Boolean {
-    
-    // ...
-    
-  public static final Boolean TRUE = new Boolean(true);
-  public static final Boolean FALSE = new Boolean(false);
-
-  public static Boolean valueOf(boolean b) {
-        return (b ? TRUE : FALSE);
-    }
-    
-    //...
-}
-```
-이 메서드는 boolean 값을 인자로 받아 Boolean 객체를 반환한다. 이것이 정적 팩터리 메서드의 예시이다.
-
-정적 팩터리 메서드는 `객체를 생성하는 역할을 하는 static 메서드`라고 이해할 수 있다.
-
-정적 팩터리 메서드의 장단점을 알아보자.
-## 장점
-
-### 1. 이름을 가질 수 있다.
-
-생성자를 사용하면 일반적으로 한 시그니처에 대해 생성자 한 개만 만들 수 있다.
-
-Order 클래스가 있다고 가정하자. Order 클래스는 배달과 포장 주문을 구별한다.
+## 장점 1: 메서드 이름으로 의도를 드러낼 수 있다
+일반 생성자는 클래스 이름과 매개변수만으로 역할을 유추해야 하지만, 팩터리 메서드는 **의미 있는 이름**을 붙여 반환 객체의 성격을 명확히 전달할 수 있다.
 
 ```java
-public class Order {
-
-  private boolean takeout;
-  private boolean delivery;
-  private Product product;
-
-}
-```
-만약 포장 주문에 대해서는 takeout이 true 값을 갖고, 배달 주문은 delivery가 true 값을 갖도록 하고 싶다면 어떻게 생성자를 만들어야 할까?
-
-생성자를 만들어보자.
-
-```java
-public class Order {
-
-  private boolean takeout;
-  private boolean delivery;
-  private Product product;
-
-  public Order(final boolean takeout, final Product product) {
-    this.takeout = takeout;
-    this.product = product;
-  }
-  
-  //오류가 난다.
-  public Order(final boolean delivery, final Product product) { 
-    this.delivery = delivery;
-    this.product = product;
-  }
-}
-```
-위와 같이 생성자를 만든다면 컴파일이 되지 않는다. 한 클래스에 동일한 시그니처를 가진 생성자가 두 개 이상 존재할 수 없기 때문이다.
-
-오류를 피하기 위해 입력 매개변수의 순서를 다르게 할 수 있을 것이다.
-
-그러나 이는 좋은 방법이 아닌데, 이 생성자를 호출하는 입장에서 파라미터의 순서에 따라 어떤 객체가 생성되는지 알기 어렵기 때문이다.
-
-이런 경우 정적 팩터리 메서드를 활용할 수 있다.
-
-정적 팩터리 메서드는 이름만 다르다면 동일한 시그니처를 가진 메서드여도 여러 개 만들 수 있다.
-
-이러한 방식은 동일한 시그니처의 생성자가 여러 개 있는 효과를 가져다준다.
-
-또한 정적 팩터리 메서드는 이름을 가질 수 있으므로, 반환될 객체의 특성을 쉽게 묘사할 수 있다.
-
-
-```java
-public class Order {
-
-  private boolean delivery;
-  private boolean takeout;
-  private Product product;
-
-  public static Order takeoutOrder(Product product) {
-    Order order = new Order();
-    order.takeout = true;
-    order.product = product;
-    return order;
-  }
-
-  public static Order deliveryOrder(Product product) {
-    Order order = new Order();
-    order.delivery = true;
-    order.product = product;
-    return order;
-  }
-}
-```
-앞서 주문 예시에서 정적 팩터리 메서드 takeoutOrder(), deliveryOrder() 를 만들었다.
-
-takeoutOrder() 메서드를 호출하면 포장 Order 객체를 생성할 수 있고, deliveryOrder() 메서드를 호출하면 배달 Order 객체를 생성할 수 있게 된다.
-
-### 2. 호출될 때마다 인스턴스를 새로 생성하지 않아도 된다.
-
-```java
-public class Boolean {
-
-  // ...
-
-  public static final Boolean TRUE = new Boolean(true);
-  public static final Boolean FALSE = new Boolean(false);
-
-  public static Boolean valueOf(boolean b) {
-    return (b ? TRUE : FALSE);
-  }
-
-  //...
-}
-```
-Boolean 클래스의 정적 팩터리 메서드인 valueOf 메서드는 객체를 직접 생성하지 않고 미리 생성해둔 객체를 반환한다.
-
-이러한 방법으로 Boolean 객체를 TRUE, FALSE 두 개의 인스턴스만을 갖는 불변 객체로 사용할 수 있다.
-
-`불변 객체`의 장점을 간단히 서술하자면 다음과 같다.
-- 안정적인 객체로 신뢰도가 높다.
-- 생성자, 접근 메서드에 대해 방어적 복사가 불필요하다.
-- 멀티스레드 환경에서 동기화 처리없이 사용할 수 있다.
-
-꼭 불변이 아니더라도, 자주 사용하면서 변하지 않을 객체를 미리 생성해두고 반환하는 방법을 사용할 수도 있다.
-
-아래는 우아한테크코스 사다리 미션에서 사용된 코드 중 일부이다.
-
-정적 팩터리 메서드 from은 사용자 입력을 받아 UserRequestedParticipants 객체를 반환한다.
-
-```java
-public class UserRequestedParticipants {
-
-    public static final String ALL_PARTICIPANTS_COMMAND = "all";
-    private static final UserRequestedParticipants ALL_PARTICIPANTS = new UserRequestedParticipants(ALL_PARTICIPANTS_COMMAND);
-
-    private final String requestContent;
-
-    private UserRequestedParticipants(final String requestContent) {
-        this.requestContent = requestContent;
+public class User {
+    private final String name;
+    private final String email;
+    private User(String name, String email) {
+        this.name = name;
+        this.email = email;
     }
 
-    public static UserRequestedParticipants from(final String requestContent) { //정적 팩터리 메서드
-        if (requestContent.equals(ALL_PARTICIPANTS_COMMAND)) {
-            return ALL_PARTICIPANTS;
+    // 정적 팩터리 메서드: 이메일 기반 생성
+    public static User fromEmail(String email) {
+        String namePart = email.substring(0, email.indexOf('@'));
+        return new User(namePart, email);
+    }
+
+    // 정적 팩터리 메서드: 사용자명 기반 생성
+    public static User fromName(String name) {
+        String email = name.toLowerCase() + "@example.com";
+        return new User(name, email);
+    }
+}
+
+// 사용 예시
+User u1 = User.fromEmail("alice@example.com");  
+User u2 = User.fromName("Bob");  
+```
+---
+
+## 장점 2: 매번 새 인스턴스를 만들지 않아도 된다
+불변 객체의 경우 미리 생성해 두거나 필요할 때 캐시에서 가져오는 식으로 객체 생성을 제어할 수 있다. 이를 통해 불필요한 쓰레기 수집을 줄이고 성능을 높일 수 있다.
+
+```java
+public final class Color {
+private final int red, green, blue;
+private static final Map<String, Color> CACHE = new HashMap<>();
+
+    private Color(int r, int g, int b) {
+        this.red = r; this.green = g; this.blue = b;
+    }
+
+    // 캐시를 사용해 동일 색상 중복 생성 방지
+    public static Color of(int r, int g, int b) {
+        String key = r + "," + g + "," + b;
+        return CACHE.computeIfAbsent(key, k -> new Color(r, g, b));
+    }
+}
+
+// 사용 예시
+Color c1 = Color.of(255, 0, 0);
+Color c2 = Color.of(255, 0, 0);
+// c1 == c2 가 true
+```
+---
+
+## 장점 3: 구현 클래스를 숨기면서 반환 타입 유연성 확보
+팩터리 메서드는 반환 타입으로 인터페이스나 추상 클래스를 지정하고, 내부에서 다양한 구현 클래스를 선택해 넘길 수 있다. 사용자에게는 깔끔한 API만 노출된다.
+
+```java
+public interface Payment {
+    void pay(int amount);
+}
+
+class CreditCardPayment implements Payment {
+    public void pay(int amount) { /* 카드 결제 로직 */ }
+}
+
+class PayPalPayment implements Payment {
+    public void pay(int amount) { /* 페이팔 결제 로직 */ }
+}
+
+public class PaymentFactory {
+    public static Payment create(String method) {
+        if ("CARD".equalsIgnoreCase(method)) {
+            return new CreditCardPayment();
+        } else {
+            return new PayPalPayment();
         }
-        return new UserRequestedParticipants(requestContent);
-    }
-
-    public boolean isAllParticipants() {
-        return this.equals(ALL_PARTICIPANTS);
-    }
-
-    public String getRequestContent() {
-        return requestContent;
     }
 }
+
+// 사용 예시
+Payment p = PaymentFactory.create("CARD");
+p.pay(10000);
 ```
+---
 
+## 장점 4: 조건에 따라 서로 다른 하위 클래스 인스턴스 반환
 
-이때 사용자의 입력이 "all"과 같다면 미리 생성해둔 `ALL_PARTICIPANTS`를 반환한다.
-
-이러한 방법으로 인해 all을 상태로 갖는 모든 UserRequestedParticipants 객체는 오직 하나 뿐임이 보장된다.
-
-또한 매번 새로운 객체를 생성하지 않음으로써, 메모리 측면에서 이점을 가질 수 있다.
-
-위와 같은 방법을 정적 팩터리 메서드를 통한 `인스턴스 통제`로 표현한다.
-
-인스턴스 통제와 관련한 추가적인 키워드와 내용은 다른 아이템에 자세히 나와있으니 더 궁금한 내용이 있다면 참고하자.
-- 클래스를 싱글턴으로 만들 수 있다. -> 아이템 3
-- 인스턴스화 불가로 만들 수 있다. -> 아이템 4
-- 불변 값 클래스에서 동치인 인스턴스가 하나 뿐임을 보장할 수 있다. -> 아이템 17
-
-### 3. 반환 타입의 하위 타입 객체를 반환할 수 있다. 또한 입력 매개변수에 따라 매번 다른 클래스의 객체를 반환할 수 있다.
+매개변수나 환경 설정에 따라 알맞은 구현체를 고를 수 있다. 예를 들어, 컬렉션 크기에 따라 서로 다른 내부 구조를 가진 클래스 인스턴스를 제공하는 식이다.
 
 ```java
-public interface HelloService {
-    void hello();
-    static HelloService of(String language) {
-        if (language.equals("ko")) {
-            return new KoreanHelloService();
+public abstract class IntSet {
+    public abstract boolean contains(int x);
+
+    public static IntSet of(int... elements) {
+        if (elements.length < 10) {
+            return new SortedArraySet(elements);
+        } else {
+            return new BitVectorSet(elements);
         }
-        return new EnglishHelloService();
     }
 }
 
-public class KoreanHelloService implements HelloService{
+class SortedArraySet extends IntSet { /* 작은 집합용 구현 */ }
+class BitVectorSet   extends IntSet { /* 큰 집합용 구현 */ }
 
-  @Override
-  public void hello() {
-    System.out.println("안녕");
-  }
-}
-
-public class EnglishHelloService implements HelloService{
-  @Override
-  public void hello() {
-    System.out.println("hello");
-  }
-}
+// 사용 예시
+IntSet small = IntSet.of(1, 2, 3);
+IntSet large = IntSet.of( /* 100개 이상 */ );
 ```
-HelloService 인터페이스 안에 정적 팩터리 메서드가 존재한다. 이 메서드는 매개변수에 따라 서로 다른 하위 구현 클래스를 반환한다.
 
+---
+## 장점 5: 아직 존재하지 않은 클래스도 반환 대상으로 설계 가능
+
+코드를 작성하는 시점에 클래스가 없더라도, 나중에 서비스 제공자 프레임워크처럼 플러그인 형태로 구현체를 추가할 수 있다. JDBC, ServiceLoader 등이 이 원리를 활용한다.
 ```java
-public class Main {
-    public static void main(String[] args) {
-        HelloService helloServiceFromInterface = HelloService.of("ko");
-        helloServiceFromInterface.hello(); //안녕하세요
+public interface Storage {
+    void save(String data);
+}
+
+public class StorageFactory {
+    public static Storage getStorage() {
+        // 시스템 속성이나 설정 파일로부터 구현체 클래스 이름을 읽어와 동적으로 로딩
+        String impl = System.getProperty("storage.impl"); 
+        try {
+            Class<?> cls = Class.forName(impl);
+            return (Storage) cls.getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            throw new IllegalStateException("스토리지 구현체 로드 실패", e);
+        }
     }
 }
+
+// 사용 예시 (JVM 옵션: -Dstorage.impl=com.example.S3Storage)
+Storage s = StorageFactory.getStorage();
+s.save("중요한 데이터");
 ```
+---
 
-HelloService 를 사용하는 클라이언트 측에서는 입력하는 매개변수 값에 따라 원하는 하위 타입 객체를 생성 받을 수 있다.
+### 단점 1: 상속이 제한된다
 
-실제로 클라이언트는 어떤 구현체를 사용하는지 알지 못하게 되고 알 필요도 없게 된다. 오직 전달할 매개변수만 신경쓰면 된다.
+하위 클래스를 만들려면 public 또는 protected 생성자가 필요하다. 팩터리 메서드만 제공하면 상속을 막아야 할 때는 오히려 장점이지만, 라이브러리 확장이 필요할 땐 제약이 될 수 있다.
 
-이는 코드에 굉장한 유연함을 가져다줄 수 있다.
+### 단점 2: API 탐색성이 떨어질 수 있다
 
-## 단점
-
-### 1. 상속을 하려면 public, protected 생성자가 필요하니, 정적 팩터리 메서드만 제공하면 하위클래스를 만들 수 없다.
-정적 팩터리 메서드를 사용할 때, 클라이언트가 코드 작성자의 의도대로 객체를 생성하도록 하기 위해 생성자를 private 등으로 막아두는 것이 보통이다.
-
-다만, 이러한 방법은 상속을 불가하게 만든다. 상속을 염두에 두고 있다면 정적 팩터리 메서드를 주의해서 사용해야 한다.
-
-### 2. 정적 팩터리 메서드는 프로그래머가 찾기 어렵다.
-클라이언트가 객체를 생성할 때, new 키워드로 생성자를 호출하는 것은 지극히 자연스럽다.
-
-그러나 생성자 없이, 정적 팩터리 메서드만 존재한다면 클라이언트가 객체를 생성하기 전에 이 메서드를 직접 찾아내야 한다.
-
-따라서 클라이언트가 정적 팩터리 메서드를 쉽게 찾을 수 있도록 안내할 필요가 있다.
-
-## 정적 팩터리 메서드 명명 방식
-정적 팩터리 메서드는 다음과 같은 네이밍 컨벤션을 갖는다.
-- from : 하나의 매개 변수를 받아서 객체를 생성하는 메서드
-- of : 여러개의 매개 변수를 받아서 객체를 생성하는 메서드
-- valueOf : from과 of의 자세한 버전
-- getInstance | instance : 인스턴스를 생성하는 메서드. 같은 인스턴스임을 보장하지 않음.
-- newInstance | create : 인스턴스를 생성하는 메서드. 매번 새로운 인스턴스를 생성해 반환.
-- get[OtherType] : 다른 타입의 인스턴스를 생성. 같은 인스턴스임을 보장하지 않음.
-- new[OtherType] : 다른 타입의 새로운 인스턴스를 생성. 매번 새로운 인스턴스를 생성해 반환.
+생성자가 명시적으로 보이지 않으므로 사용자가 팩터리 메서드를 찾기 어려울 수 있다. 이 경우 문서화와 메서드 이름 네이밍 컨벤션(of, from, getInstance 등)을 잘 지켜야 한다.
