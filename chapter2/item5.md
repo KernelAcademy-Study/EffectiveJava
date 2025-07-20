@@ -98,4 +98,3 @@ Mosaic create(Supplier<? extends Tile> tileFactory) {
 - 이 방식을 **의존 객체 주입(Dependency Injection)** 이라고 하며,  
   클래스의 **유연성, 재사용성, 테스트 용이성**을 크게 개선해준다.
 - DI는 단순한 클래스부터 대규모 프레임워크 기반 시스템까지 폭넓게 활용된다.
-```
