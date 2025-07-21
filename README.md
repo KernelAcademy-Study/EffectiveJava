@@ -23,7 +23,7 @@
 |-----------|---------------------------------------------------------------|----------|------|
 | 아이템 1  | [생성자 대신 정적 팩터리 메서드를 고려하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter2/item1.md)                       | 김대화   | 250713|
 | 아이템 2  | [생성자에 매개변수가 많다면 빌더를 고려하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter2/item2.md)                     | 이민수   |250713|
-| 아이템 3  | private 생성자나 열거 타입으로 싱글턴임을 보증하라             | 신승민   |250713|
+| 아이템 3  | [private 생성자나 열거 타입으로 싱글턴임을 보증하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter2/item3.md)             | 신승민   |250713|
 | 아이템 4  | [인스턴스화를 막으려거든 private 생성자를 사용하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter1/item4.md)              | 이우용   |250713|
 | 아이템 5  | [자원을 직접 명시하지 말고 의존 객체 주입을 사용하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter2/item5.md)            | 김태현   |250713|
 | 아이템 6  | [불필요한 객체 생성을 피하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter1/item6.md)                                     | 오승엽   |250713|
