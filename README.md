@@ -26,7 +26,7 @@
 | 아이템 3  | [private 생성자나 열거 타입으로 싱글턴임을 보증하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter2/item3.md)             | 신승민   |250713|
 | 아이템 4  | [인스턴스화를 막으려거든 private 생성자를 사용하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter1/item4.md)              | 이우용   |250713|
 | 아이템 5  | [자원을 직접 명시하지 말고 의존 객체 주입을 사용하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter2/item5.md)            | 김태현   |250713|
-| 아이템 6  | [불필요한 객체 생성을 피하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter1/item6.md)                                     | 오승엽   |250713|
+| 아이템 6  | [불필요한 객체 생성을 피하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter2/item6.md)                                     | 오승엽   |250713|
 | 아이템 7  | 다 쓴 객체 참조를 해제하라                                     | 이상수   |250713|
 | 아이템 8  | finalizer와 cleaner 사용을 피하라                              | 조율기   |250713|
 | 아이템 9  | [Try-finally보다는 try-with-resources를 사용하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter2/item9.md)               | 김대화   |250720|
@@ -37,7 +37,7 @@
 | 아이템 14 | [Comparable을 구현할 지 고려하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter3/item14.md)                                | 오승엽   |250720|
 | 아이템 15 | 클래스와 멤버의 접근 권한을 최소화하라                         | 이상수   |250720|
 | 아이템 16 | Public 클래스에서는 public 필드가 아닌 접근자 메서드를 사용하라| 조율기   |250720|
-| 아이템 17 | 변경 가능성을 최소화하라                                       | 김대화   |250727|
+| 아이템 17 | [변경 가능성을 최소화하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter4/item17.md)                                       | 김대화   |250727|
 | 아이템 18 | 상속보다는 컴포지션을 사용하라                                | 이민수   |250727|
 | 아이템 19 | 상속을 고려해 설계하고 문서화하라. 그러지 않았다면 상속을 금지하라 | 신승민 |250727|
 | 아이템 20 | 추상 클래스보다는 인터페이스를 우선하라                        | 이우용   |250727|
