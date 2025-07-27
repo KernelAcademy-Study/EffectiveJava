@@ -31,7 +31,7 @@
 | 아이템 8  | finalizer와 cleaner 사용을 피하라                              | 조율기   |250713|
 | 아이템 9  | [Try-finally보다는 try-with-resources를 사용하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter2/item9.md)               | 김대화   |250720|
 | 아이템 10 | equals는 일반 규약을 지켜 재정의하라                          | 이민수   |250720|
-| 아이템 11 | equals를 재정의하려거든 hashCode도 재정의하라                 | 신승민   |250720|
+| 아이템 11 | [equals를 재정의하려거든 hashCode도 재정의하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter3/item11.md)                 | 신승민   |250720|
 | 아이템 12 | toString을 항상 재정의하라                                     | 이우용   |250720|
 | 아이템 13 | [Clone 재정의는 주의해서 진행하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter3/item13.md)                               | 김태현   |250720|
 | 아이템 14 | [Comparable을 구현할 지 고려하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter3/item14.md)                                | 오승엽   |250720|
