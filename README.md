@@ -28,8 +28,8 @@
 | 아이템 4  | [인스턴스화를 막으려거든 private 생성자를 사용하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter1/item4.md)              | 이우용   |250713|
 | 아이템 5  | [자원을 직접 명시하지 말고 의존 객체 주입을 사용하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter2/item5.md)            | 김태현   |250713|
 | 아이템 6  | [불필요한 객체 생성을 피하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter2/item6.md)                                     | 오승엽   |250713|
-| 아이템 7  | [다 쓴 객체 참조를 해제하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter2/item7.md)                                     |    |250713|
-| 아이템 8  | [finalizer와 cleaner 사용을 피하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter2/item8.md)                              |    |250713|
+| 아이템 7  | [다 쓴 객체 참조를 해제하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter2/item7.md)                                     | 이우용    |250713|
+| 아이템 8  | [finalizer와 cleaner 사용을 피하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter2/item8.md)                              | 이우용   |250713|
 | 아이템 9  | [Try-finally보다는 try-with-resources를 사용하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter2/item9.md)               | 김대화   |250720|
 | 아이템 10 | equals는 일반 규약을 지켜 재정의하라                          | 이민수   |250720|
 | 아이템 11 | [equals를 재정의하려거든 hashCode도 재정의하라](https://github.com/KernelAcademy-Study/EffectiveJava/blob/main/chapter3/item11.md)                 | 신승민   |250720|
