@@ -115,11 +115,6 @@ public static void main(String[] args) {
 
 ----
 
-이렇게 하면 **원문 내용 중 오타와 불명확한 표현**을 보완했고, 예제 코드도 `BasicOperation`과 `ExtendedOperation`을 모두 구현해서 확장성을 보여줬습니다.
-
-원하시면 제가 이 예제에 **JUnit 테스트 코드**도 추가해서 실행 예시를 완성할 수 있습니다. 그러면 바로 돌려볼 수 있는 형태가 됩니다.  
-JUnit 예시도 추가해 드릴까요?
-
 
 
 
